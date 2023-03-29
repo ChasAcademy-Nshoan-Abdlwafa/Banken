@@ -55,32 +55,32 @@ class Program
 
     static void StartMenu()
     {
-        //Account[][] accounts = new Account[5][]; //Declarations of the users' accounts
-        //accounts[0] = new Account[1];
-        //accounts[1] = new Account[2];
-        //accounts[2] = new Account[3];
-        //accounts[3] = new Account[4];
-        //accounts[4] = new Account[5];
+        AccountModel[][] accounts = new AccountModel[5][]; //Declarations of the users' accounts
+        accounts[0] = new AccountModel[1];
+        accounts[1] = new AccountModel[2];
+        accounts[2] = new AccountModel[3];
+        accounts[3] = new AccountModel[4];
+        accounts[4] = new AccountModel[5];
 
-        //accounts[0][0] = new Account("Andreas", "Checking", "123", 1000);
-        //accounts[0][1] = new Account("Andreas", "Salary", "123", 1000);
-        //accounts[0][2] = new Account("Andreas", "Savings", "123", 1000.50);
+        accounts[0][0] = new AccountModel("Andreas", "Checking", "123", 1000);
+        accounts[0][1] = new AccountModel("Andreas", "Salary", "123", 1000);
+        accounts[0][2] = new AccountModel("Andreas", "Savings", "123", 1000.50);
 
-        //accounts[1][0] = new Account("Bob", "Checking", "234", 1000);
-        //accounts[1][1] = new Account("Bob", "Salary", "234", 1000);
-        //accounts[1][2] = new Account("Bob", "Savings", "234", 1000.25);
+        accounts[1][0] = new AccountModel("Bob", "Checking", "234", 1000);
+        accounts[1][1] = new AccountModel("Bob", "Salary", "234", 1000);
+        accounts[1][2] = new AccountModel("Bob", "Savings", "234", 1000.25);
 
-        //accounts[2][0] = new Account("David", "Checking", "345", 1000);
-        //accounts[2][1] = new Account("David", "Salary", "345", 1000);
-        //accounts[2][2] = new Account("David", "Savings", "345", 1000.75);
+        accounts[2][0] = new AccountModel("David", "Checking", "345", 1000);
+        accounts[2][1] = new AccountModel("David", "Salary", "345", 1000);
+        accounts[2][2] = new AccountModel("David", "Savings", "345", 1000.75);
 
-        //accounts[3][0] = new Account("Erik", "Checking", "456", 1000);
-        //accounts[3][1] = new Account("Erik", "Salary", "456", 1000);
-        //accounts[3][2] = new Account("Erik", "Savings", "456", 1000.25);
+        accounts[3][0] = new AccountModel("Erik", "Checking", "456", 1000);
+        accounts[3][1] = new AccountModel("Erik", "Salary", "456", 1000);
+        accounts[3][2] = new AccountModel("Erik", "Savings", "456", 1000.25);
 
-        //accounts[4][0] = new Account("Gustav", "Checking", "567", 1000);
-        //accounts[4][1] = new Account("Gustav", "Salary", "567", 1000);
-        //accounts[4][2] = new Account("Gustav", "Savings", "567", 1000.50);
+        accounts[4][0] = new AccountModel("Gustav", "Checking", "567", 1000);
+        accounts[4][1] = new AccountModel("Gustav", "Salary", "567", 1000);
+        accounts[4][2] = new AccountModel("Gustav", "Savings", "567", 1000.50);
 
         string[] startMenu = new string[] //Array containing the startmenu options
         {
@@ -104,5 +104,10 @@ class Program
                     break;
             }
         }
+    }
+
+    static void BankMenu(string id, AccountModel[][] accounts)
+    {
+
     }
 }

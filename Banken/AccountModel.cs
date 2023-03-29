@@ -5,9 +5,9 @@
         string? accountId;
         string? accountName;
         string? password;
-        decimal balance = 0;
+        double balance = 0;
 
-        public AccountModel(string? accountId, string? accountName, string? password, decimal balance)
+        public AccountModel(string? accountId, string? accountName, string? password, double balance)
         {
             this.accountId = accountId;
             this.accountName = accountName;
@@ -58,12 +58,12 @@
             }
         }
 
-        decimal BalanceCheck()
+        double BalanceCheck()
         {
             return balance;
         }
 
-        void Transfer(decimal amount)
+        void Transfer(double amount)
         {
             if (amount < 0)
             {
@@ -75,7 +75,7 @@
             }
         }
 
-        void Withdraw(decimal amount)
+        void Withdraw(double amount)
         {
             if (amount < 0)
             {
