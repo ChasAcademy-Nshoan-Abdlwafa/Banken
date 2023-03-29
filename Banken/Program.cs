@@ -1,4 +1,6 @@
-﻿using System.Security.Principal;
+﻿using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 
 namespace Banken;
 
@@ -95,5 +97,60 @@ class Program
         Console.Clear();
         Console.WriteLine("\n Exiting application.");
         Environment.Exit(0);
+    }
+
+    class UserAccount //Class for the users' accounts
+    {
+        string username;
+        string password;
+        List<OpenedAccount> openedAccount = new List<OpenedAccount>();
+
+        private UserAccount(string username, string password, List<OpenedAccount> moneyAccount)
+        {
+            this.username = username;
+            this.password = password;
+        }
+
+        private string Username
+        {
+            get { return username; }
+            set { username = value; }
+        }
+
+        private string Password
+        {
+            get { return password; }
+            set { password = value; }
+        }
+
+        private List<OpenedAccount> OpenedAccounts
+        {
+            get { return openedAccount; }
+            set { openedAccount = value; }
+        }
+    }
+
+    class OpenedAccount //Class for the users' opened bank accounts
+    {
+        private string accountName = "Bank account";
+        private double balance = 0;
+
+        private OpenedAccount(string accountname, double balance)
+        {
+            accountName = accountname;
+            balance = balance;
+        }
+
+        private string AccountName
+        {
+            get { return accountName; }
+            set { accountName = value; }
+        }
+        
+        private double Balance
+        {
+            get { return balance; }
+            set { balance = Math.Truncate(value * 100) / 100; }
+        }
     }
 }
