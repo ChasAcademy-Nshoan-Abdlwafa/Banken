@@ -1,46 +1,17 @@
-﻿using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Principal;
-
-namespace Banken;
+﻿namespace Banken;
 
 class Program
 {
-    private static int menuIndex = 0;
+    public static int menuIndex = 0;
 
-    private static void Main(string[] args)
+    static void Main(string[] args)
     {
-        StartMenu();
+        //StartMenu;
     }
 
-    private static void StartMenu()
+    static void StartMenu()
     {
         Console.CursorVisible = false;
-
-        string menuMessage = " Hello and welcome to the bank. \n Please select an option: ";
-
-        List<string> menuItems = new()
-            {
-                "Log in",
-                "Exit"
-            };
-
-        while (true)
-        {
-            int selectedMenuItem = DrawMenu(menuItems, menuMessage);
-            switch (selectedMenuItem)
-            {
-                case 0:
-                    Console.Clear();
-                    Login();
-                    break;
-
-                case 1:
-                    Console.Clear();
-                    Exit();
-                    break;
-            }
-        }
     }
 
     private static int DrawMenu(List<string> menuItem, string menuMessage)
@@ -87,70 +58,20 @@ class Program
         return 100;
     }
 
-    private static void Login()
+    static void Login()
     {
+        string? name, password;
 
-    }
+        int loginAttempts = 3; //The number of attempts that the user starts out with
 
-    private static void Exit()
-    {
-        Console.Clear();
-        Console.WriteLine("\n Exiting application.");
-        Environment.Exit(0);
-    }
-
-    class UserAccount //Class for the users' accounts
-    {
-        string username;
-        string password;
-        List<OpenedAccount> openedAccount = new List<OpenedAccount>();
-
-        private UserAccount(string username, string password, List<OpenedAccount> moneyAccount)
+        for (int i = 0; i < loginAttempts; i--) //The user has three attempts; using up all attempts will close the application
         {
-            this.username = username;
-            this.password = password;
-        }
+            Console.WriteLine("\n Please enter your details");
+            Console.Write($"\n First name: ");
+            name = Console.ReadLine();
 
-        private string Username
-        {
-            get { return username; }
-            set { username = value; }
-        }
-
-        private string Password
-        {
-            get { return password; }
-            set { password = value; }
-        }
-
-        private List<OpenedAccount> OpenedAccounts
-        {
-            get { return openedAccount; }
-            set { openedAccount = value; }
-        }
-    }
-
-    class OpenedAccount //Class for the users' opened bank accounts
-    {
-        private string accountName = "Bank account";
-        private double balance = 0;
-
-        private OpenedAccount(string accountname, double balance)
-        {
-            accountName = accountname;
-            balance = balance;
-        }
-
-        private string AccountName
-        {
-            get { return accountName; }
-            set { accountName = value; }
-        }
-        
-        private double Balance
-        {
-            get { return balance; }
-            set { balance = Math.Truncate(value * 100) / 100; }
+            Console.Write($" PIN code: ");
+            password = Console.ReadLine();
         }
     }
 }
