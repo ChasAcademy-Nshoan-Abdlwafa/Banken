@@ -92,6 +92,8 @@ class Program
 
     private static void Exit()
     {
-
+        Console.Clear();
+        Console.WriteLine("\n Exiting application.");
+        Environment.Exit(0);
     }
 }
