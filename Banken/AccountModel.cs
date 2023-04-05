@@ -2,12 +2,12 @@
 {
     public class AccountModel
     {
-        string? accountId;
-        string? accountName;
-        string? password;
-        double balance = 0;
+        readonly string? accountId;
+        readonly string? accountName;
+        readonly string? password;
+        decimal balance = 0;
 
-        public AccountModel(string? accountId, string? accountName, string? password, double balance)
+        public AccountModel(string? accountId, string? accountName, string? password, decimal balance)
         {
             this.accountId = accountId;
             this.accountName = accountName;
@@ -58,12 +58,12 @@
             }
         }
 
-        public double BalanceCheck()
+        public decimal BalanceCheck()
         {
             return balance;
         }
 
-        public void Transfer(double amount)
+        public void Transfer(decimal amount)
         {
             if (amount < 0)
             {
@@ -75,7 +75,7 @@
             }
         }
 
-        public void Withdraw(double amount)
+        public void Withdraw(decimal amount)
         {
             if (amount < 0)
             {
