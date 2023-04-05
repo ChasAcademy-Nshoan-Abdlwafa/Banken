@@ -5,7 +5,7 @@
         readonly string? accountId;
         readonly string? accountName;
         readonly string? password;
-        decimal balance = 0;
+        decimal balance = 0M;
 
         public AccountModel(string? accountId, string? accountName, string? password, decimal balance)
         {

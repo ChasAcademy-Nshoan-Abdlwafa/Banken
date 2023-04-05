@@ -2,20 +2,20 @@
 
 namespace Banken;
 
-class Program
+public class Program
 {
     public static int menuIndex = 0;
 
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
         Console.CursorVisible = false;
-        //StartMenu;
+        StartMenu();
     }
 
     public static int DrawMenu(string[] item)
     {
         Console.Clear();
-        Console.WriteLine("\n Hello! Welcome to the bank. Please select an option: ");
+        Console.WriteLine("\n Welcome to the bank. Please select an option: ");
 
         for (int i = 0; i < item.Length; i++)
         {
@@ -29,7 +29,7 @@ class Program
             }
         }
 
-        ConsoleKeyInfo ckey = Console.ReadKey(); //Checks key input
+        ConsoleKeyInfo ckey = Console.ReadKey(); //Checks user key input
 
         if (ckey.Key == ConsoleKey.DownArrow)
         {
@@ -53,34 +53,34 @@ class Program
         return 100;
     }
 
-    static void StartMenu()
+    public static void StartMenu()
     {
         AccountModel[][] accounts = new AccountModel[5][]; //Declarations of the users' accounts
-        accounts[0] = new AccountModel[0];
-        accounts[1] = new AccountModel[1];
-        accounts[2] = new AccountModel[2];
-        accounts[3] = new AccountModel[3];
-        accounts[4] = new AccountModel[4];
+        accounts[0] = new AccountModel[3];
+        accounts[1] = new AccountModel[4];
+        accounts[2] = new AccountModel[5];
+        accounts[3] = new AccountModel[6];
+        accounts[4] = new AccountModel[7];
 
-        accounts[0][0] = new AccountModel("Andreas", "Checking", "123", 1000);
-        accounts[0][1] = new AccountModel("Andreas", "Salary", "123", 1000);
-        accounts[0][2] = new AccountModel("Andreas", "Savings", "123", 1000,50);
+        accounts[0][0] = new AccountModel("Andreas", "Checking", "123", 1000M);
+        accounts[0][1] = new AccountModel("Andreas", "Salary", "123", 1250M);
+        accounts[0][2] = new AccountModel("Andreas", "Savings", "123", 2500.50M);
 
-        accounts[1][0] = new AccountModel("Bob", "Checking", "234", 1000);
-        accounts[1][1] = new AccountModel("Bob", "Salary", "234", 1000);
-        accounts[1][2] = new AccountModel("Bob", "Savings", "234", 1000,25);
+        accounts[1][0] = new AccountModel("Bob", "Checking", "234", 1000M);
+        accounts[1][1] = new AccountModel("Bob", "Salary", "234", 1500M);
+        accounts[1][2] = new AccountModel("Bob", "Savings", "234", 5000.25M);
 
-        accounts[2][0] = new AccountModel("David", "Checking", "345", 1000);
-        accounts[2][1] = new AccountModel("David", "Salary", "345", 1000);
-        accounts[2][2] = new AccountModel("David", "Savings", "345", 1000,75);
+        accounts[2][0] = new AccountModel("David", "Checking", "345", 1000M);
+        accounts[2][1] = new AccountModel("David", "Salary", "345", 1750M);
+        accounts[2][2] = new AccountModel("David", "Savings", "345", 7500.75M);
 
-        accounts[3][0] = new AccountModel("Erik", "Checking", "456", 1000);
-        accounts[3][1] = new AccountModel("Erik", "Salary", "456", 1000);
-        accounts[3][2] = new AccountModel("Erik", "Savings", "456", 1000,25);
+        accounts[3][0] = new AccountModel("Erik", "Checking", "456", 1000M);
+        accounts[3][1] = new AccountModel("Erik", "Salary", "456", 2000M);
+        accounts[3][2] = new AccountModel("Erik", "Savings", "456", 10000.25M);
 
-        accounts[4][0] = new AccountModel("Gustav", "Checking", "567", 1000);
-        accounts[4][1] = new AccountModel("Gustav", "Salary", "567", 1000);
-        accounts[4][2] = new AccountModel("Gustav", "Savings", "567", 1000,50);
+        accounts[4][0] = new AccountModel("Gustav", "Checking", "567", 1000M);
+        accounts[4][1] = new AccountModel("Gustav", "Salary", "567", 2250M);
+        accounts[4][2] = new AccountModel("Gustav", "Savings", "567", 12500.50M);
 
         string[] startMenu = new string[] //Array containing the startmenu options
         {
@@ -100,20 +100,62 @@ class Program
 
                 case 1:
                     Console.Clear();
-                    Console.WriteLine("Exiting application.");
+                    Console.WriteLine("\n Shutting down application.");
                     Environment.Exit(0);
                     break;
             }
         }
     }
 
-    static void BankMenu(string id, AccountModel[][] accounts)
+    public static void Login(AccountModel[][] accounts)
+    {
+        string? input;
+        int loginAttempts = 0; //The user starts out at zero login attempts
+        int loginAttemptsUsed = 1;
+        int loginAttemptsLeft = 2;
+
+        while (loginAttempts < 3) //This keeps looping as long as the user hasn't failed at least three login attempts
+        {
+            Console.Clear();
+            Console.WriteLine("\n Please enter the name of your account: ");
+            input = Console.ReadLine();
+
+            for (int i = 0; i < accounts.Length; i++)
+            {
+                if (input == accounts[i][0].GetAccountId())
+                {
+                    Console.WriteLine("\n Please enter the password of your account: ");
+                    input = Console.ReadLine();
+
+                    if (input == accounts[i][0].GetPassword())
+                    {
+                        BankMenu(accounts[i][0].GetAccountId(), accounts);
+                        loginAttempts = 4;
+                    }
+                }
+            }
+            Console.WriteLine("\n Login attempt failed. Please try again.");
+            Console.WriteLine($"\n You have used up {loginAttemptsUsed} login attempt(s). \n You have {loginAttemptsLeft} login attempt(s) left.");
+            Console.WriteLine("\n Press any key to continue.");
+            Console.ReadLine();
+            loginAttempts++;
+            loginAttemptsUsed++;
+            loginAttemptsLeft--;
+        }
+        if (loginAttempts == 3)
+        {
+            Console.WriteLine(" You have used up all of your login attempts. Shutting down application.");
+            Environment.Exit(0);
+        }
+    }
+
+    public static void BankMenu(string id, AccountModel[][] accounts)
     {
         AccountModel[] currentUser;
 
         string[] BankMenu = new string[] //Array containing the bankmenu options
         {
-            "Accounts",
+            "Accounts and balances",
             "Transfer",
             "Withdraw",
             "Log out"
@@ -127,7 +169,7 @@ class Program
             {
                 case 0:
                     Console.Clear();
-                    Console.WriteLine("\n Accounts");
+                    Console.WriteLine("Accounts and balances");
 
                     for (int i = 0; i < accounts.Length; i++)
                     {
@@ -141,13 +183,12 @@ class Program
                             }
                         }
                     }
-
                     Console.WriteLine("\n Press any key to continue.");
                     Console.ReadLine();
                     break;
 
                 case 1:
-                    Console.Clear();
+                    //Console.Clear();
                     Console.WriteLine("\n Transfer");
 
                     for (int h = 0; h < accounts.Length; h++)
@@ -174,74 +215,8 @@ class Program
         }
     }
 
-    static void TransferMenu(AccountModel[] currentUser)
+    public static void TransferMenu(AccountModel[] currentUser)
     {
-        string? input;
-
-        while (true)
-        {
-            Console.Clear();
-            Console.WriteLine("\n Transfer options");
-
-            for (int i = 0; i < currentUser.Length; i++)
-            {
-                Console.WriteLine($"{i}: {currentUser[i].GetAccountName()} {currentUser[i].BalanceCheck()}");
-                input = Console.ReadLine();
-
-                if (!string.IsNullOrWhiteSpace(input) && int.TryParse(input, out int index))
-                {
-                    Console.WriteLine($" Please enter the amount that you wish to transfer from {currentUser[index].GetAccountName()} ");
-
-                    if (decimal.TryParse(Console.ReadLine(), out decimal amount))
-                    {
-                        if (amount < 0)
-                        {
-                            Console.WriteLine("This amount is invalid. Please try again.");
-                            Console.WriteLine("Press any key to continue.");
-                            Console.ReadLine();
-                        }
-                        else if (currentUser[index].BalanceCheck() - amount < 0)
-                        {
-                            Console.WriteLine("This amount is larger than your current account balance. Please try again.");
-                            Console.WriteLine("Press any key to continue.");
-                            Console.ReadLine();
-                        }
-                        else
-                        {
-                            Console.WriteLine("Please enter the account number of the account that you would like to transfer to: ");
-
-                            if (int.TryParse(Console.ReadLine(), out int account))
-                            {
-                                currentUser[index].Withdraw(amount);
-                                currentUser[account].Transfer(amount);
-
-                                Console.WriteLine($"{amount} has been successfully transferred from {currentUser[index].GetAccountName()} to {currentUser[account].GetAccountName()}");
-                                Console.WriteLine("Press any key to continue.");
-                                Console.ReadLine();
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("You have entered an invalid account. Please try again.");
-                                Console.WriteLine("Press any key to continue.");
-                                Console.ReadLine();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("You have entered an invalid amount. Please try again.");
-                        Console.WriteLine("Press any key to continue.");
-                        Console.ReadLine();
-                    }
-                }
-                else
-                {
-                    //Console.WriteLine("");
-                    //Console.WriteLine("Press any key to continue.");
-                    //Console.ReadLine();
-                }
-            }
-        }
+        
     }
 }
