@@ -9,7 +9,7 @@ class Program
     static void Main(string[] args)
     {
         Console.CursorVisible = false;
-        //StartMenu;
+        StartMenu;
     }
 
     public static int DrawMenu(string[] item)
@@ -108,6 +108,42 @@ class Program
 
     static void BankMenu(string id, AccountModel[][] accounts)
     {
+        AccountModel[] currentUser;
 
+        string[] BankMenu = new string[] //Array containing the bankmenu options
+        {
+            "Accounts", "Transfer", "Withdraw", "Log out"
+        };
+
+        while (true)
+        {
+            string selectedMenuItem = DrawMenu(BankMenu);
+
+            switch (selectedMenuItem)
+            {
+                case "Accounts":
+                    Console.Clear();
+                    Console.WriteLine("\n Accounts");
+
+                    for (int i = 0; i < accounts.Length; i++)
+                    {
+                        if (accounts[i][0].GetAccountId() == id)
+                        {
+                            currentUser = accounts[i];
+
+                            for (int j = 0; j < currentUser.Length; j++)
+                            {
+                                Console.WriteLine($"{j + 1}: {currentUser[j].GetAccountName()} - {currentUser[j].BalanceCheck()}");
+                            }
+                        }
+                    }
+
+                    Console.WriteLine("\n Press any key to continue.");
+                    Console.ReadLine();
+                    break;
+
+
+            }
+        }
     }
 }

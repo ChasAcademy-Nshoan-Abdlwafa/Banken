@@ -22,7 +22,7 @@
             Console.WriteLine("balance {0}", balance);
         }
 
-        string GetAccountId()
+        public string GetAccountId()
         {
             if (accountId == null)
             {
@@ -34,7 +34,7 @@
             }
         }
 
-        string GetAccountName()
+        public string GetAccountName()
         {
             if (accountName == null)
             {
@@ -46,7 +46,7 @@
             }
         }
 
-        string GetPassword()
+        public string GetPassword()
         {
             if (password == null)
             {
@@ -58,12 +58,12 @@
             }
         }
 
-        double BalanceCheck()
+        public double BalanceCheck()
         {
             return balance;
         }
 
-        void Transfer(double amount)
+        public void Transfer(double amount)
         {
             if (amount < 0)
             {
@@ -75,7 +75,7 @@
             }
         }
 
-        void Withdraw(double amount)
+        public void Withdraw(double amount)
         {
             if (amount < 0)
             {
