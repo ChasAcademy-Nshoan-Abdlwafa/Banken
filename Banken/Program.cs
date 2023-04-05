@@ -146,6 +146,29 @@ class Program
                     Console.ReadLine();
                     break;
 
+                case 1:
+                    Console.Clear();
+                    Console.WriteLine("\n Transfer");
+
+                    for (int h = 0; h < accounts.Length; h++)
+                    {
+                        if (accounts[h][0].GetAccountId() == id)
+                        {
+                            TransferMenu(accounts[h]);
+                        }
+                    }
+                    break;
+
+                //case 2: Withdraw will go here
+
+                case 3:
+                    Console.Clear();
+                    Console.WriteLine("\n You will now be logged out.");
+                    Console.WriteLine("\n Press any key to continue.");
+                    Console.ReadLine();
+                    menuIndex = 0;
+                    return;
+
 
             }
         }
@@ -173,7 +196,7 @@ class Program
                     {
                         if (amount < 0)
                         {
-                            Console.WriteLine("This amount is invalid. Please enter a valid number.");
+                            Console.WriteLine("This amount is invalid. Please try again.");
                             Console.WriteLine("Press any key to continue.");
                             Console.ReadLine();
                         }
@@ -214,7 +237,7 @@ class Program
                 }
                 else
                 {
-                    //Console.WriteLine("You have entered an invalid account number. Please try again.");
+                    //Console.WriteLine("");
                     //Console.WriteLine("Press any key to continue.");
                     //Console.ReadLine();
                 }
