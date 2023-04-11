@@ -111,8 +111,8 @@ public class Program
     {
         string? input;
         int loginAttempts = 0; //The user starts out at zero login attempts
-        int loginAttemptsUsed = 1;
-        int loginAttemptsLeft = 2;
+        //int loginAttemptsUsed = 1;
+        //int loginAttemptsLeft = 2;
 
         while (loginAttempts < 3) //This keeps looping as long as the user hasn't failed at least three login attempts
         {
@@ -134,13 +134,13 @@ public class Program
                     }
                 }
             }
-            Console.WriteLine("\n Login attempt failed. Please try again.");
-            Console.WriteLine($"\n You have used up {loginAttemptsUsed} login attempt(s). \n You have {loginAttemptsLeft} login attempt(s) left.");
+            Console.WriteLine("\n Login attempt failed!");
+            //Console.WriteLine($"\n You have used up {loginAttemptsUsed} login attempt(s). \n You have {loginAttemptsLeft} login attempt(s) left.");
             Console.WriteLine("\n Press any key to continue.");
             Console.ReadLine();
             loginAttempts++;
-            loginAttemptsUsed++;
-            loginAttemptsLeft--;
+            //loginAttemptsUsed++;
+            //loginAttemptsLeft--;
         }
         if (loginAttempts == 3)
         {
