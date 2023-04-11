@@ -217,6 +217,82 @@ public class Program
 
     public static void TransferMenu(AccountModel[] currentUser)
     {
-        
+        string? input;
+
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("Transfer");
+
+            for (int i = 0; i <  currentUser.Length; i++)
+            {
+                Console.WriteLine($"{i}: {currentUser[i].GetAccountName()} {currentUser[i].BalanceCheck()}");
+            }
+
+            Console.WriteLine("\n Please enter the number of the account that you wish to transfer from.\n You can also exit the transfer menu by typing in e/E.");
+            input = Console.ReadLine();
+
+            if (input.ToLower() == "e") //If the user types in a capital E it will then be converted to a lowercase e
+            {
+                Console.WriteLine(" Exiting the transfer menu.");
+                Console.WriteLine(" Press any key to continue.");
+                Console.ReadLine();
+                break;
+            }
+            else if (input == null)
+            {
+                break;
+            }
+            else if (int.TryParse(input, out int index))
+            {
+                Console.WriteLine($"\n Please enter the amount you wish to transfer from {currentUser[index].GetAccountName()}");
+                if (decimal.TryParse(Console.ReadLine(), out decimal amount))
+                {
+                    if (amount < 0)
+                    {
+                        Console.WriteLine(" This amount is negative. Please try again.");
+                        Console.WriteLine(" Press any key to continue.");
+                        Console.ReadLine();
+                    }
+                    else if (currentUser[index].BalanceCheck() - amount < 0)
+                    {
+                        Console.WriteLine(" This amount is larger than the current balance of this account. Please try again.");
+                        Console.WriteLine(" Press any key to continue.");
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n Please enter the number of the account you wish to transfer to: ");
+                        if (int.TryParse(Console.ReadLine(), out int account))
+                        {
+                            currentUser[index].Withdraw(amount);
+                            currentUser[account].Transfer(amount);
+                            Console.WriteLine($" Success! {amount} has been transferred from {currentUser[index].GetAccountName()} to {currentUser[account].GetAccountName()}");
+                            Console.WriteLine(" Press any key to continue.");
+                            Console.ReadLine();
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("\n You have entered an invalid account number. Please try again.");
+                            Console.WriteLine(" Press any key to continue.");
+                            Console.ReadLine();
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\n You have entered an invalid amount. Please try again.");
+                    Console.WriteLine(" Press any key to continue.");
+                    Console.ReadLine();
+                }
+            }
+            else
+            {
+                Console.WriteLine("\n You have entered an invalid account number. Please try again.");
+                Console.WriteLine(" Press any key to continue.");
+                Console.ReadLine();
+            }
+        }
     }
 }
