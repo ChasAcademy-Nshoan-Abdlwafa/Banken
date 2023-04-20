@@ -22,7 +22,7 @@
             Console.WriteLine("balance {0}", balance);
         }
 
-        public string GetAccountId()
+        public string AccountIdCheck()
         {
             if (accountId == null)
             {
@@ -34,7 +34,7 @@
             }
         }
 
-        public string GetAccountName()
+        public string AccountNameCheck()
         {
             if (accountName == null)
             {
@@ -46,7 +46,7 @@
             }
         }
 
-        public string GetPassword()
+        public string PasswordCheck()
         {
             if (password == null)
             {
@@ -83,7 +83,7 @@
             }
             else if (amount >= balance)
             {
-                    Console.WriteLine("This amount is larger than your current balance.");
+                Console.WriteLine("This amount is larger than your current balance.");
             }
             else
             {

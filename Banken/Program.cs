@@ -1,6 +1,4 @@
-﻿using System.Security.Principal;
-
-namespace Banken;
+﻿namespace Banken;
 
 public class Program
 {
@@ -15,7 +13,7 @@ public class Program
     public static int DrawMenu(string[] item)
     {
         Console.Clear();
-        Console.WriteLine("\n Welcome to the bank. Please select an option: ");
+        Console.WriteLine("Welcome to the bank. Please select an option: \n");
 
         for (int i = 0; i < item.Length; i++)
         {
@@ -25,11 +23,11 @@ public class Program
             }
             else
             {
-                Console.WriteLine($" {item[i]} ");
+                Console.WriteLine($"{item[i]}");
             }
         }
 
-        ConsoleKeyInfo ckey = Console.ReadKey(); //Checks user key input
+        ConsoleKeyInfo ckey = Console.ReadKey(); //Looks for user key input
 
         if (ckey.Key == ConsoleKey.DownArrow)
         {
@@ -100,7 +98,7 @@ public class Program
 
                 case 1:
                     Console.Clear();
-                    Console.WriteLine("\n Shutting down application.");
+                    Console.WriteLine("Shutting down application.");
                     Environment.Exit(0);
                     break;
             }
@@ -111,40 +109,42 @@ public class Program
     {
         string? input;
         int loginAttempts = 0; //The user starts out at zero login attempts
-        //int loginAttemptsUsed = 1;
-        //int loginAttemptsLeft = 2;
+        //int loginAttemptsLeft = 2; //Amount of login attempts left starts at two and goes down to zero once three failed login attempts has been made
 
-        while (loginAttempts < 3) //This keeps looping as long as the user hasn't failed at least three login attempts
+        while (loginAttempts < 3) //This keeps looping as long as the user hasn't failed to login at least three times
         {
             Console.Clear();
-            Console.WriteLine("\n Please enter the name of your account: ");
+            Console.WriteLine("Please enter the name of your account: ");
             input = Console.ReadLine();
 
             for (int i = 0; i < accounts.Length; i++)
             {
-                if (input == accounts[i][0].GetAccountId())
+                if (input == accounts[i][0].AccountIdCheck())
                 {
-                    Console.WriteLine("\n Please enter the password of your account: ");
+                    Console.WriteLine("\nPlease enter the password of your account: ");
                     input = Console.ReadLine();
 
-                    if (input == accounts[i][0].GetPassword())
+                    if (input == accounts[i][0].PasswordCheck())
                     {
-                        BankMenu(accounts[i][0].GetAccountId(), accounts);
-                        loginAttempts = 4;
+                        Console.WriteLine("\nLogin successful.");
+                        Console.WriteLine("Press any key to continue.");
+                        Console.ReadLine();
+                        BankMenu(accounts[i][0].AccountIdCheck(), accounts);
+                        loginAttempts = 5;
+                        break;
                     }
                 }
             }
-            Console.WriteLine("\n Login attempt failed!");
-            //Console.WriteLine($"\n You have used up {loginAttemptsUsed} login attempt(s). \n You have {loginAttemptsLeft} login attempt(s) left.");
-            Console.WriteLine("\n Press any key to continue.");
+            Console.WriteLine("Login attempt failed!");
+            //Console.WriteLine($"You have failed {loginAttempts + 1} login attempt(s). \nYou have {loginAttemptsLeft} login attempt(s) left.");
+            Console.WriteLine("Press any key to continue.");
             Console.ReadLine();
             loginAttempts++;
-            //loginAttemptsUsed++;
             //loginAttemptsLeft--;
         }
         if (loginAttempts == 3)
         {
-            Console.WriteLine(" You have used up all of your login attempts. Shutting down application.");
+            Console.WriteLine("You have used up all of your login attempts. Shutting down application.");
             Environment.Exit(0);
         }
     }
@@ -169,48 +169,55 @@ public class Program
             {
                 case 0:
                     Console.Clear();
-                    Console.WriteLine("Accounts and balances");
+                    Console.WriteLine("Accounts and balances\n");
 
                     for (int i = 0; i < accounts.Length; i++)
                     {
-                        if (accounts[i][0].GetAccountId() == id)
+                        if (accounts[i][0].AccountIdCheck() == id)
                         {
                             currentUser = accounts[i];
 
                             for (int j = 0; j < currentUser.Length; j++)
                             {
-                                Console.WriteLine($"{j + 1}: {currentUser[j].GetAccountName()} - {currentUser[j].BalanceCheck()}");
+                                Console.WriteLine($"{j + 1}: {currentUser[j].AccountNameCheck()} - {currentUser[j].BalanceCheck()}");
                             }
                         }
                     }
-                    Console.WriteLine("\n Press any key to continue.");
+                    Console.WriteLine("\nPress any key to continue.");
                     Console.ReadLine();
                     break;
 
                 case 1:
-                    //Console.Clear();
-                    Console.WriteLine("\n Transfer");
+                    Console.Clear();
 
-                    for (int h = 0; h < accounts.Length; h++)
+                    for (int t = 0; t < accounts.Length; t++)
                     {
-                        if (accounts[h][0].GetAccountId() == id)
+                        if (accounts[t][0].AccountIdCheck() == id)
                         {
-                            TransferMenu(accounts[h]);
+                            TransferMenu(accounts[t]);
                         }
                     }
                     break;
 
-                //case 2: Withdraw will go here
+                case 2:
+                    Console.Clear();
+
+                    for (int w = 0; w < accounts.Length; w++)
+                    {
+                        if (accounts[w][0].AccountIdCheck() == id)
+                        {
+                            WithdrawMenu(accounts[w]);
+                        }
+                    }
+                    break;
 
                 case 3:
                     Console.Clear();
-                    Console.WriteLine("\n You will now be logged out.");
-                    Console.WriteLine("\n Press any key to continue.");
+                    Console.WriteLine("\nLogging out.");
+                    Console.WriteLine("Press any key to continue.");
                     Console.ReadLine();
                     menuIndex = 0;
                     return;
-
-
             }
         }
     }
@@ -222,75 +229,146 @@ public class Program
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("Transfer");
+            Console.WriteLine("Transfer\n");
 
-            for (int i = 0; i <  currentUser.Length; i++)
+            for (int i = 0; i < currentUser.Length; i++)
             {
-                Console.WriteLine($"{i}: {currentUser[i].GetAccountName()} {currentUser[i].BalanceCheck()}");
+                Console.WriteLine($"{i}: {currentUser[i].AccountNameCheck()} {currentUser[i].BalanceCheck()}");
             }
 
-            Console.WriteLine("\n Please enter the number of the account that you wish to transfer from.\n You can also exit the transfer menu by typing in e/E.");
+            Console.WriteLine("\nPlease enter the number of the account you wish to transfer from.\nType exit to return to the main menu.\n");
             input = Console.ReadLine();
 
-            if (input.ToLower() == "e") //If the user types in a capital E it will then be converted to a lowercase e
+            if (input.ToLower() == "exit") //If the user types in a capital E it will then be converted to a lowercase e
             {
-                Console.WriteLine(" Exiting the transfer menu.");
-                Console.WriteLine(" Press any key to continue.");
+                Console.WriteLine("\nExiting the transfer menu.");
+                Console.WriteLine("Press any key to continue.");
                 Console.ReadLine();
                 break;
             }
-            else if (input == null)
+            else if (string.IsNullOrWhiteSpace(input)) //he user will be returned to the main menu if the input is empty or null
             {
+                Console.WriteLine("No inputs detected.\nReturning to main menu.");
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadLine();
                 break;
             }
             else if (int.TryParse(input, out int index))
             {
-                Console.WriteLine($"\n Please enter the amount you wish to transfer from {currentUser[index].GetAccountName()}");
+                Console.WriteLine($"\nPlease enter the amount you wish to transfer from {currentUser[index].AccountNameCheck()}.");
                 if (decimal.TryParse(Console.ReadLine(), out decimal amount))
                 {
                     if (amount < 0)
                     {
-                        Console.WriteLine(" This amount is negative. Please try again.");
-                        Console.WriteLine(" Press any key to continue.");
+                        Console.WriteLine("This amount is negative. Please try again.");
+                        Console.WriteLine("Press any key to continue.");
                         Console.ReadLine();
                     }
                     else if (currentUser[index].BalanceCheck() - amount < 0)
                     {
-                        Console.WriteLine(" This amount is larger than the current balance of this account. Please try again.");
-                        Console.WriteLine(" Press any key to continue.");
+                        Console.WriteLine("This amount is larger than the current balance of this account. Please try again.");
+                        Console.WriteLine("Press any key to continue.");
                         Console.ReadLine();
                     }
                     else
                     {
-                        Console.WriteLine("\n Please enter the number of the account you wish to transfer to: ");
+                        Console.WriteLine("\nPlease enter the number of the account you wish to transfer to: ");
                         if (int.TryParse(Console.ReadLine(), out int account))
                         {
                             currentUser[index].Withdraw(amount);
                             currentUser[account].Transfer(amount);
-                            Console.WriteLine($" Success! {amount} has been transferred from {currentUser[index].GetAccountName()} to {currentUser[account].GetAccountName()}");
-                            Console.WriteLine(" Press any key to continue.");
+                            Console.WriteLine($"Success! {amount} has been transferred from {currentUser[index].AccountNameCheck()} to {currentUser[account].AccountNameCheck()}.");
+                            Console.WriteLine("Press any key to continue.");
                             Console.ReadLine();
                             break;
                         }
                         else
                         {
-                            Console.WriteLine("\n You have entered an invalid account number. Please try again.");
-                            Console.WriteLine(" Press any key to continue.");
+                            Console.WriteLine("\nYou have entered an invalid account number. Please try again.");
+                            Console.WriteLine("Press any key to continue.");
                             Console.ReadLine();
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("\n You have entered an invalid amount. Please try again.");
-                    Console.WriteLine(" Press any key to continue.");
+                    Console.WriteLine("\nYou have entered an invalid amount. Please try again.");
+                    Console.WriteLine("Press any key to continue.");
                     Console.ReadLine();
                 }
             }
             else
             {
-                Console.WriteLine("\n You have entered an invalid account number. Please try again.");
-                Console.WriteLine(" Press any key to continue.");
+                Console.WriteLine("\nYou have entered an invalid account number. Please try again.");
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadLine();
+            }
+        }
+    }
+
+    public static void WithdrawMenu(AccountModel[] currentUser)
+    {
+        string? input;
+
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("Withdraw\n");
+
+            for (int i = 0; i < currentUser.Length; i++)
+            {
+                Console.WriteLine($"{i}: {currentUser[i].AccountNameCheck()} {currentUser[i].BalanceCheck()}");
+            }
+
+            Console.WriteLine("\nPlease enter the number of the account you wish to withdraw from.\nType exit to return to the main menu.\n");
+            input = Console.ReadLine();
+
+            if (input.ToLower() == "exit") //If the user types in a capital E it will then be converted to a lowercase e
+            {
+                Console.WriteLine("\nExiting the withdraw menu.");
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadLine();
+                break;
+            }
+            else if (string.IsNullOrWhiteSpace(input)) //The user will be returned to the main menu if the input is empty or null
+            {
+                Console.WriteLine("No inputs detected.\nReturning to main menu.");
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadLine();
+                break;
+            }
+            else if (int.TryParse(input, out int accountNumber))
+            {
+                Console.WriteLine($"\nPlease enter the amount you wish to withdraw from {currentUser[accountNumber].AccountNameCheck()}.");
+                if (decimal.TryParse(Console.ReadLine(), out decimal amount))
+                {
+                    if (amount < 0)
+                    {
+                        Console.WriteLine("This amount is negative. Please try again.");
+                        Console.WriteLine("Press any key to continue.");
+                        Console.ReadLine();
+                    }
+                    else if (currentUser[accountNumber].BalanceCheck() - amount < 0)
+                    {
+                        Console.WriteLine("This amount is larger than the current balance of this account. Please try again.");
+                        Console.WriteLine("Press any key to continue.");
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        currentUser[accountNumber].Withdraw(amount);
+                        Console.WriteLine($"Success! {amount} has been withdrawn from {currentUser[accountNumber].AccountNameCheck()}.");
+                        Console.WriteLine($"The updated balance of account {currentUser[accountNumber].AccountNameCheck()} is now {currentUser[accountNumber].BalanceCheck()}.");
+                        Console.WriteLine("Press any key to continue.");
+                        Console.ReadLine();
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nYou have entered an invalid account number. Please try again.");
+                Console.WriteLine("Press any key to continue.");
                 Console.ReadLine();
             }
         }
