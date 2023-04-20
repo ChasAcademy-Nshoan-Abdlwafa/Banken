@@ -51,7 +51,7 @@ public class Program
         return 100;
     }
 
-    public static void StartMenu()
+    public static void StartMenu() //This is the first menu that the user is shown and contains login and exit options
     {
         AccountModel[][] accounts = new AccountModel[5][]; //Declarations of the users' accounts
         accounts[0] = new AccountModel[3];
@@ -66,15 +66,19 @@ public class Program
 
         accounts[1][0] = new AccountModel("Bob", "Checking", "234", 1000M);
         accounts[1][1] = new AccountModel("Bob", "Salary", "234", 1500M);
-        accounts[1][2] = new AccountModel("Bob", "Savings", "234", 5000.25M);
+        accounts[1][2] = new AccountModel("Bob", "Savings #1", "234", 5000.25M);
+        accounts[1][3] = new AccountModel("Bob", "Savings #2", "234", 5000.25M);
 
         accounts[2][0] = new AccountModel("David", "Checking", "345", 1000M);
         accounts[2][1] = new AccountModel("David", "Salary", "345", 1750M);
-        accounts[2][2] = new AccountModel("David", "Savings", "345", 7500.75M);
+        accounts[2][2] = new AccountModel("David", "Savings #1", "345", 7500.75M);
+        accounts[2][3] = new AccountModel("David", "Savings #2", "345", 7500.75M);
+        accounts[2][4] = new AccountModel("David", "Savings #3", "345", 7500.75M);
 
         accounts[3][0] = new AccountModel("Erik", "Checking", "456", 1000M);
         accounts[3][1] = new AccountModel("Erik", "Salary", "456", 2000M);
-        accounts[3][2] = new AccountModel("Erik", "Savings", "456", 10000.25M);
+        accounts[3][2] = new AccountModel("Erik", "Savings #1", "456", 10000.25M);
+        accounts[3][3] = new AccountModel("Erik", "Savings #2", "456", 10000.25M);
 
         accounts[4][0] = new AccountModel("Gustav", "Checking", "567", 1000M);
         accounts[4][1] = new AccountModel("Gustav", "Salary", "567", 2250M);
@@ -105,13 +109,13 @@ public class Program
         }
     }
 
-    public static void Login(AccountModel[][] accounts)
+    public static void Login(AccountModel[][] accounts) //This is where the user will log in to the bank
     {
         string? input;
         int loginAttempts = 0; //The user starts out at zero login attempts
         //int loginAttemptsLeft = 2; //Amount of login attempts left starts at two and goes down to zero once three failed login attempts has been made
 
-        while (loginAttempts < 3) //This keeps looping as long as the user hasn't failed to login at least three times
+        while (loginAttempts < 3) //This keeps looping as long as the user hasn't failed at least three login attempts
         {
             Console.Clear();
             Console.WriteLine("Please enter the name of your account: ");
@@ -135,7 +139,7 @@ public class Program
                     }
                 }
             }
-            Console.WriteLine("Login attempt failed!");
+            Console.WriteLine("\nLogin attempt failed!");
             //Console.WriteLine($"You have failed {loginAttempts + 1} login attempt(s). \nYou have {loginAttemptsLeft} login attempt(s) left.");
             Console.WriteLine("Press any key to continue.");
             Console.ReadLine();
@@ -149,7 +153,7 @@ public class Program
         }
     }
 
-    public static void BankMenu(string id, AccountModel[][] accounts)
+    public static void BankMenu(string id, AccountModel[][] accounts) //This is the bank menu that contains all of the bank options
     {
         AccountModel[] currentUser;
 
@@ -222,7 +226,7 @@ public class Program
         }
     }
 
-    public static void TransferMenu(AccountModel[] currentUser)
+    public static void TransferMenu(AccountModel[] currentUser) //This is where the user can transfer money between several accounts
     {
         string? input;
 
@@ -246,7 +250,7 @@ public class Program
                 Console.ReadLine();
                 break;
             }
-            else if (string.IsNullOrWhiteSpace(input)) //he user will be returned to the main menu if the input is empty or null
+            else if (string.IsNullOrWhiteSpace(input)) //The user will be returned to the main menu if the input is empty or null
             {
                 Console.WriteLine("No inputs detected.\nReturning to main menu.");
                 Console.WriteLine("Press any key to continue.");
@@ -255,18 +259,18 @@ public class Program
             }
             else if (int.TryParse(input, out int index))
             {
-                Console.WriteLine($"\nPlease enter the amount you wish to transfer from {currentUser[index].AccountNameCheck()}.");
+                Console.WriteLine($"\nPlease enter the amount you wish to transfer from {currentUser[index].AccountNameCheck()}:");
                 if (decimal.TryParse(Console.ReadLine(), out decimal amount))
                 {
                     if (amount < 0)
                     {
-                        Console.WriteLine("This amount is negative. Please try again.");
+                        Console.WriteLine("\nThis amount is negative. Please try again.");
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadLine();
                     }
                     else if (currentUser[index].BalanceCheck() - amount < 0)
                     {
-                        Console.WriteLine("This amount is larger than the current balance of this account. Please try again.");
+                        Console.WriteLine("\nThis amount is larger than the current balance of this account. Please try again.");
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadLine();
                     }
@@ -277,7 +281,7 @@ public class Program
                         {
                             currentUser[index].Withdraw(amount);
                             currentUser[account].Transfer(amount);
-                            Console.WriteLine($"Success! {amount} has been transferred from {currentUser[index].AccountNameCheck()} to {currentUser[account].AccountNameCheck()}.");
+                            Console.WriteLine($"\nSuccess! {amount} has been transferred from {currentUser[index].AccountNameCheck()} to {currentUser[account].AccountNameCheck()}.");
                             Console.WriteLine("Press any key to continue.");
                             Console.ReadLine();
                             break;
@@ -306,7 +310,7 @@ public class Program
         }
     }
 
-    public static void WithdrawMenu(AccountModel[] currentUser)
+    public static void WithdrawMenu(AccountModel[] currentUser) //This is where the user can withdraw money from an account
     {
         string? input;
 
@@ -339,25 +343,25 @@ public class Program
             }
             else if (int.TryParse(input, out int accountNumber))
             {
-                Console.WriteLine($"\nPlease enter the amount you wish to withdraw from {currentUser[accountNumber].AccountNameCheck()}.");
+                Console.WriteLine($"\nPlease enter the amount you wish to withdraw from {currentUser[accountNumber].AccountNameCheck()}:");
                 if (decimal.TryParse(Console.ReadLine(), out decimal amount))
                 {
                     if (amount < 0)
                     {
-                        Console.WriteLine("This amount is negative. Please try again.");
+                        Console.WriteLine("\nThis amount is negative. Please try again.");
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadLine();
                     }
                     else if (currentUser[accountNumber].BalanceCheck() - amount < 0)
                     {
-                        Console.WriteLine("This amount is larger than the current balance of this account. Please try again.");
+                        Console.WriteLine("\nThis amount is larger than the current balance of this account. Please try again.");
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadLine();
                     }
                     else
                     {
                         currentUser[accountNumber].Withdraw(amount);
-                        Console.WriteLine($"Success! {amount} has been withdrawn from {currentUser[accountNumber].AccountNameCheck()}.");
+                        Console.WriteLine($"\nSuccess! {amount} has been withdrawn from {currentUser[accountNumber].AccountNameCheck()}.");
                         Console.WriteLine($"The updated balance of account {currentUser[accountNumber].AccountNameCheck()} is now {currentUser[accountNumber].BalanceCheck()}.");
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadLine();

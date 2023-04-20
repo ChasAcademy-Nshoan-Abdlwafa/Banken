@@ -67,7 +67,7 @@
         {
             if (amount < 0)
             {
-                Console.WriteLine("This amount is negative.");
+                Console.WriteLine("This amount is negative. Please try again.");
             }
             else
             {
@@ -79,11 +79,11 @@
         {
             if (amount < 0)
             {
-                Console.WriteLine("This amount is negative.");
+                Console.WriteLine("This amount is negative. Please try again.");
             }
-            else if (amount >= balance)
+            else if (amount > balance)
             {
-                Console.WriteLine("This amount is larger than your current balance.");
+                Console.WriteLine("This amount is larger than your current balance. Please try again.");
             }
             else
             {
